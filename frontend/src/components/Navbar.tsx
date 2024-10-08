@@ -4,7 +4,6 @@ import { VscThreeBars } from "react-icons/vsc";
 import keep from "../../public/google keep img.png";
 import { IoMdRefresh, IoMdSettings } from "react-icons/io";
 import { IoSearch } from "react-icons/io5";
-import listView from "../../public/list view_files";
 import { TfiViewList } from "react-icons/tfi";
 import { CgMenuGridO } from "react-icons/cg";
 function Navbar() {

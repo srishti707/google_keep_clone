@@ -33,11 +33,11 @@ function page() {
           <MdOutlinePhotoSizeSelectActual className="text-white text-2xl" />
         </div>
       </div>
-      <div className="text-white p-4 max-w-full gap-3 columns-3">
+      <div className="text-white p-4 max-w-full gap-3 columns-4">
         {allTodos &&
           allTodos.map((todo: any) => {
             return (
-              <div className="flex flex-col gap-2 border-2 mb-3 w-fit  border-white p-2 break-inside-avoid rounded-lg  ">
+              <div className="flex flex-col gap-2 border-2 mb-3 w-full  border-white p-2 break-inside-avoid rounded-lg  ">
                 <h1 className="text-xl font-bold">{todo.title}</h1>
                 <div className="flex gap-2">{todo.labels.map((label:any)=>(<p className="p-2 rounded-md border-blue-400 bg-blue-100 bg-opacity-30">{label}</p>))}</div>
                 <p>{todo.content}</p>

@@ -12,18 +12,18 @@ function Sidebar() {
     <div className='flex w-full gap-5 justify-center items-center p-3 '>
         <img className='rounded-full h-16 w-16 '
         src={profile.src} alt="Profile Image"/>
-        <div className='flex flex-col gap-2 '>
+        <div className='flex flex-col gap-2 py-4'>
             <p className='font-semibold'>SRISHTI BHATIA</p>
             <p className="italic text-sm">srishtibhatia7070@gmail.com</p>
         </div>
     </div>
     <hr/>
-    <div className='flex gap-5'>
-    <section className='flex flex-col items-center justify-center gap-2'>
+    <div className='flex gap-7'>
+    <section className='flex flex-col items-center justify-center gap-2 py-2'>
     <BsLightbulbFill className='text-xl'/>
     <TbHandFinger className='text-xl'/>
     </section>
-    <section className='flex flex-col gap-2'>
+    <section className='flex flex-col gap-3 py-2'>
     <h3>Notes</h3>
     <h3>Reminders</h3>
     </section>
@@ -34,23 +34,23 @@ function Sidebar() {
     <FaPen className='text-xl '/>
     </div>
      
-    <div className='flex gap-5'>
-      <section className='flex flex-col gap-2 text-xl'>
+    <div className='flex gap-7'>
+      <section className='flex flex-col gap-3 py-2 text-xl'>
       <FaCartShopping className='text-xl'/>
       <FaPlus className='text-xl'/>
       </section>
-      <section className='flex flex-col gap-2'>
+      <section className='flex flex-col gap-3 py-2'>
       <h3>Shopping List</h3>
       <h3>Create new Label</h3>
       </section>
     </div>
     <hr/>
-    <div className='flex gap-5'>
-      <section className='flex flex-col gap-2 text-xl'>
+    <div className='flex gap-7'>
+      <section className='flex flex-col gap-3 text-xl py-2'>
       <IoMdArchive className='text-xl' />
       <MdDelete className='text-xl'/>
       </section>
-      <section className='flex flex-col gap-2'>
+      <section className='flex flex-col gap-3 py-2'>
       <h3>Archieve</h3>
       <h3>Trash</h3>
       </section>

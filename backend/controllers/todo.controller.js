@@ -2,7 +2,7 @@ const Todo = require("../models/todo.schema");
 exports.createTodo = async (req, res) => {
   const { title, content,labels,background_color,pinned,completed,user_id, } = req.body;
   try {
-    const newTodo = await Todo.create({title,content,labels,background_color,pinned,completed,user_id,});
+    const newTodo = await Todo.create({title,content,labels,background_color,pinned,completed,user_id});
     return res.status(200).json({
       success: true,
       message: "Todo created successfully",
@@ -19,7 +19,7 @@ exports.getTodo = async (req, res) => {
   const { userId } = req.query;
 
   try {
-    const todos = await Todo.find({ user_id: userId });
+    const todos = await Todo.find({ user_id: userId }).sort({createdAt:-1});
     return res.status(200).json({
       success: true,
       message: "Todo fetched successfully",
@@ -33,7 +33,8 @@ exports.getTodo = async (req, res) => {
   }
 };
 exports.deleteTodo = async (req, res) => {
-  const { todo_id } = req.body;
+  const { todo_id } = req.query;
+
   if (!todo_id) {
     return res.status(400).json({
       success: false,
@@ -42,7 +43,7 @@ exports.deleteTodo = async (req, res) => {
     // throw new Error("Todo_id is required");  //if you want to throw an error instead of returning a 400 status code.
   }
   try {
-    const todos = await Todo.findByIdAndDelete({ user_id: userId });
+    const todos = await Todo.findByIdAndDelete(todo_id);
     if (!todos) {
       return res.status(404).json({
         success: false,

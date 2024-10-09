@@ -20,7 +20,7 @@ export default function RootLayout({
     <html lang="en">
       <body >
         <Navbar/>
-        <main className="flex w-full h-full">
+        <main className="flex w-full min-h-[calc(100vh-56px)] ">
           <Sidebar/>
         {children}
 

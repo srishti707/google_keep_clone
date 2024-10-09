@@ -1,4 +1,4 @@
-import { get_todo, server_uri } from "@/constants";
+import { get_todo, server_uri,create_todo } from "@/constants";
 import axios from "axios";
 
 export async function fetchTodos(params:any){
@@ -7,3 +7,9 @@ console.log(response);
 return response.data
 
 }
+export async function createTodo(body:any){
+    const response=await axios.post(`${server_uri}${create_todo}`,body)//data ko frontend se is params (body)mai bheja hai
+    console.log(response);
+    return response.data
+}
+//these functions request backend using axios and receives response from backend .then returns response.data.

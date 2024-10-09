@@ -9,6 +9,7 @@ import { CgMenuGridO } from "react-icons/cg";
 function Navbar() {
   return (
     <nav className="w-full h-14 border-b px-7 py-3 bg-gray-900 z-50 sticky top-0 left-0 flex items-center gap-5">
+      
       <VscThreeBars className="text-2xl text-white" />
      <div className="flex gap-1 items-center">
      <img src={keep.src} alt="Google" className="h-10" />

@@ -2,7 +2,7 @@ const mongoose=require("mongoose");
 const todoSchema=new mongoose.Schema({
     title:{
         type:String,
-        reuired:true,
+        required:true,
     },
     content:{
         type:String,
@@ -27,5 +27,10 @@ const todoSchema=new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'User',
         required:true,
-    }
+    },
+}
+,{
+    timestamps: true, // creates createdAt and updatedAt fields automatically
 })
+const Todo=mongoose.model('Todo',todoSchema);
+module.exports = Todo;

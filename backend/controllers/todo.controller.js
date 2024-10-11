@@ -63,15 +63,13 @@ exports.deleteTodo = async (req, res) => {
   }
 };
 exports.updateTodo = async (req, res) => {
-  const {title,content,labels,background_color,pinned,completed,userId} = req.body;
+  const {title,content,labels,background_color,pinned,completed,userId,removeLabel} = req.body;
   const { todo_id } = req.query;
   const updatedObject = {};
   if (title) {
     updatedObject.title = title;
   }
-  if (labels) {
-    updatedObject.labels = labels;
-  }
+ 
   if (background_color) {
     updatedObject.background_color = background_color;
   }
@@ -87,6 +85,13 @@ exports.updateTodo = async (req, res) => {
   if (userId) {
     updatedObject.user_id = userId;
   }
+  if(labels){
+    updatedObject.$push={labels:labels}
+  }
+  if(removeLabel){
+   updatedObject.$pull={labels:removeLabel}
+  }
+  
   try {
     const updatedTodo = await Todo.findByIdAndUpdate(todo_id, updatedObject, {new: true, });
     return res.status(200).json({

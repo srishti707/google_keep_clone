@@ -1,13 +1,19 @@
 "use client";
 
 import { create_todo } from "@/constants";
-import { createTodo, fetchTodos } from "@/networks/todo_networks";
+import {
+  createTodo,
+  deleteTodo,
+  fetchTodos,
+  updateTodo,
+} from "@/networks/todo_networks";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { HiOutlinePaintBrush } from "react-icons/hi2";
 import { IoIosCheckboxOutline, IoIosColorPalette } from "react-icons/io";
 import { MdOutlinePhotoSizeSelectActual } from "react-icons/md";
+import { DotLoader } from "react-spinners";
 
 function page() {
   const [allTodos, setAllTodos] = useState([]);
@@ -15,12 +21,20 @@ function page() {
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [hovered, setHovered] = useState<number>(-1);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [showDropDown, setDropDown] = useState<number>(-1);
+  const [showLabel, setshowLabel] = useState<number>(-1);
+  const [labelName, setLabelName] = useState<string>("");
+  const [removeLabel, setRemoveLabel] = useState<string>("");
+  const [showCross, setShowCross] = useState<string>("");
+
   useEffect(() => {
     getTodos();
   }, []);
-const colorRef=useRef<HTMLInputElement>(null)
+  const colorRef = useRef<HTMLInputElement>(null);
 
   async function getTodos() {
+    setLoading(true);
     const response = await fetchTodos({});
     console.log("response------->", response);
     if (response.success) {
@@ -28,6 +42,7 @@ const colorRef=useRef<HTMLInputElement>(null)
     } else {
       console.log("error in fetching todos.");
     }
+    setLoading(false);
   }
   async function handleAddTodo() {
     const body = {
@@ -35,7 +50,9 @@ const colorRef=useRef<HTMLInputElement>(null)
       content,
       user_id: "66fbd05f8ab56098a7c329b3",
     };
+    setLoading(true);
     const res: any = await createTodo(body); //res=response.data
+
     if (res.success) {
       console.log("todo added successfully");
       setTitle("");
@@ -44,6 +61,40 @@ const colorRef=useRef<HTMLInputElement>(null)
     } else {
       console.log("error in adding todo");
     }
+    setLoading(false);
+  }
+  async function handleDeleteTodo(id: string) {
+    const res = await deleteTodo({ todo_id: id });
+    if (res.success) {
+      getTodos();
+    }
+  }
+  async function handleUpdateTodo(todo_id: string) {
+    const params = {
+      todo_id,
+      body: {
+        labels: labelName,
+      },
+    };
+    const response = await updateTodo(params);
+    setshowLabel(-1);
+    if (response.success) {
+      getTodos();
+    }
+  }
+  async function removeLabell(todo_id:string,label:string){
+const params={
+  todo_id,
+  body:{
+  removeLabel:label
+  },
+
+}
+const response=await updateTodo(params);
+if(response.success){
+
+  getTodos();
+}
   }
   // async function createTodo(){
   //  const body={
@@ -99,33 +150,100 @@ const colorRef=useRef<HTMLInputElement>(null)
           <MdOutlinePhotoSizeSelectActual className="text-white text-2xl" />
         </div>
       </div>
-      <div className="text-white p-4 max-w-full gap-3 columns-4">
-        {allTodos &&
+      {loading && (
+        <div className="h-full w-full flex justify-center items-center ">
+          <DotLoader size={50} color="#FFFFFF" />
+        </div>
+      )}
+      <div className="text-white p-4 max-w-full gap-3 columns-4 min-h-screen">
+        {!loading &&
+          allTodos &&
           allTodos.map((todo: any) => {
             return (
               <div
                 onMouseOver={() => setHovered(todo._id)}
-          
                 className="flex flex-col gap-2 border-2 mb-3 w-full  border-white p-2 break-inside-avoid rounded-lg  "
               >
                 <h1 className="text-xl font-bold">{todo.title}</h1>
-                <div className="flex gap-2">
-                  {todo.labels.map((label: any) => (
-                    <p className="p-2 rounded-md border-blue-400 bg-blue-100 bg-opacity-30">
+                <div className="flex gap-2 flex-wrap">
+                  {todo.labels.map((label: any,index:number) => (
+                    <p
+                      className="p-2 rounded-md border-blue-400 bg-blue-100 bg-opacity-30 "
+                      onMouseOver={() => setShowCross(`${todo._id}${index}`)}
+                      onMouseOut={()=>setShowCross("")}
+                    >
                       {label}
+                      {showCross===`${todo._id}${index}` &&
+                        <button
+                          onClick={() =>removeLabell(todo._id,label)}
+                          className="bg-red-500 text-white p-3 rounded-md"
+                        >
+                          X
+                        </button>
+                      }
                     </p>
                   ))}
                 </div>
                 <p className="break-all">{todo.content}</p>
-                {hovered===todo._id && <div className="flex items-center justify-end gap-3 text-2xl">
-                  <label>
-                    <input ref={colorRef} type="color" className="hidden"/>
-                    <button onClick={()=>colorRef.current?.click()}
-                    className="h-10 w-10 rounded-full hover:bg-gray-500 flex justify-center items-center"><IoIosColorPalette /></button>
+                {hovered === todo._id && (
+                  <div className="flex items-center justify-end gap-3 text-2xl">
+                    <label>
+                      <input ref={colorRef} type="color" className="hidden" />
+                      <button
+                        onClick={() => colorRef.current?.click()}
+                        className="h-10 w-10 rounded-full hover:bg-gray-500 flex justify-center items-center"
+                      >
+                        <IoIosColorPalette />
+                      </button>
                     </label>
-                
-                 <button className="h-10 w-10 rounded-full hover:bg-gray-500 flex justify-center items-center"> <BsThreeDotsVertical /></button>
-                  </div>}
+                    <div className="relative ">
+                      <button
+                        onClick={() => setDropDown(todo._id)}
+                        className="h-10 w-10 rounded-full hover:bg-gray-500 flex justify-center items-center"
+                      >
+                        {" "}
+                        <BsThreeDotsVertical />
+                      </button>
+                      {showDropDown === todo._id && (
+                        <ul className="p-3 h-32 bg-gray-600 rounded-md text-sm absolute top-[100%] right-0 flex flex-col justify-center gap-4 items-center">
+                          <li
+                            onClick={() => handleDeleteTodo(todo._id)}
+                            className="whitespace-nowrap cursor-pointer"
+                          >
+                            delete
+                          </li>
+                          <li
+                            onClick={() => {
+                              setshowLabel(todo._id);
+                              setDropDown(-1);
+                            }}
+                            className="whitespace-nowrap cursor-pointer"
+                          >
+                            Add label
+                          </li>
+                        </ul>
+                      )}
+                      {showLabel === todo._id && (
+                        <ul className="p-3 h-32 bg-gray-600 rounded-md text-sm absolute top-[100%] right-0 flex flex-col justify-center gap-4 items-center">
+                          <input
+                            onChange={(e) => setLabelName(e.target.value)}
+                            value={labelName}
+                            className="p-4 m-4 bg-transparent text-white "
+                            placeholder="add label...."
+                          />
+                          <button
+                            onClick={() => {
+                              handleUpdateTodo(todo._id);
+                            }}
+                            className="whitespace-nowrap cursor-pointer"
+                          >
+                            Add label
+                          </button>
+                        </ul>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
             );
           })}

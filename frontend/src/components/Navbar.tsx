@@ -1,4 +1,6 @@
-import React from "react";
+"use client"
+
+import React, { useContext } from "react";
 import { SiGooglekeep } from "react-icons/si";
 import { VscThreeBars } from "react-icons/vsc";
 import keep from "../../public/google keep img.png";
@@ -6,7 +8,9 @@ import { IoMdRefresh, IoMdSettings } from "react-icons/io";
 import { IoSearch } from "react-icons/io5";
 import { TfiViewList } from "react-icons/tfi";
 import { CgMenuGridO } from "react-icons/cg";
+import TodoContext from "@/context/TodoContext";
 function Navbar() {
+  const {searchInput,setSearchInput}=useContext(TodoContext)
   return (
     <nav className="w-full h-14 border-b px-7 py-3 bg-gray-900 z-50 sticky top-0 left-0 flex items-center gap-5">
       
@@ -18,7 +22,8 @@ function Navbar() {
  
       <div className="flex gap-1 w-[50%] justify-center items-center ml-10">
         <IoSearch className="text-2xl text-white bg-gray-600 rounded-full" />
-        <input
+        <input onChange={(e)=>setSearchInput(e.target.value)}
+        value={searchInput}
           className="bg-gray-600 rounded-md  py-2 px-4 w-full"
           placeholder="Search"
         />

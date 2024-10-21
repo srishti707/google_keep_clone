@@ -1,8 +1,8 @@
+
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import Sidebar from "@/components/Sidebar";
-import Navbar from "@/components/Navbar";
+
 
 
 
@@ -16,15 +16,13 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+
   return (
     <html lang="en">
-      <body >
-        <Navbar/>
-        <main className="flex w-full min-h-[calc(100vh-56px)] ">
-          <Sidebar/>
-        {children}
-
-        </main>
+      <body className="flex flex-col gap-10 bg-gradient-to-b from-gray-900 to-gray-600 items-center py-10 ">
+      <h1 className='text-white text-2xl font-bold w-fit '>SignUp</h1>
+      {children}
       </body>
     </html>
   );

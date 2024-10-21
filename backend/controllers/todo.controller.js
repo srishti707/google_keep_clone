@@ -1,4 +1,6 @@
 const Todo = require("../models/todo.schema");
+const jwt=require("jsonwebtoken");
+const User=require("../models/user.schema");
 exports.createTodo = async (req, res) => {
   const { title, content,labels,background_color,pinned,completed,user_id, } = req.body;
   try {
@@ -16,10 +18,14 @@ exports.createTodo = async (req, res) => {
   }
 };
 exports.getTodo = async (req, res) => {
-  const { userId } = req.query;
-
+  const {searchTitle } = req.query;
+  const currentUser=req.user;
+  const filterOptions={user_id:currentUser._id};
+  if(searchTitle){
+    filterOptions.title ={$regex:searchTitle,$options:"i"};
+  }
   try {
-    const todos = await Todo.find({ user_id: userId }).sort({createdAt:-1});
+    const todos = await Todo.find( filterOptions).sort({createdAt:-1});
     return res.status(200).json({
       success: true,
       message: "Todo fetched successfully",
@@ -64,9 +70,11 @@ exports.deleteTodo = async (req, res) => {
 };
 exports.updateTodo = async (req, res) => {
   const {title,content,labels,background_color,pinned,completed,userId,removeLabel} = req.body;
+  console.log(req.body);
   const { todo_id } = req.query;
   const updatedObject = {};
-  if (title) {
+  
+  if (title!==null ||title!==undefined) {
     updatedObject.title = title;
   }
  
@@ -79,13 +87,13 @@ exports.updateTodo = async (req, res) => {
   if (pinned) {
     updatedObject.pinned = pinned;
   }
-  if (content) {
+  if (content!==null || content!==undefined) {
     updatedObject.content = content;
   }
   if (userId) {
     updatedObject.user_id = userId;
   }
-  if(labels){
+  if(labels.length>0) {
     updatedObject.$push={labels:labels}
   }
   if(removeLabel){

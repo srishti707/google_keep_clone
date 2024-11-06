@@ -31,6 +31,9 @@ const userSchema = new mongoose.Schema(
         message: "Passwords do not match",
       },
     },
+    passwordResetToken:String,
+    passwordResetTokenExpiration:Date,
+ 
 },
   {
     timestamps: true, // creates createdAt and updatedAt fields automatically

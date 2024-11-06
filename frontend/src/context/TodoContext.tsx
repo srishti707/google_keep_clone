@@ -1,6 +1,7 @@
 "use client";
 import useDebounce from "@/hooks/useDebounce";
 import { fetchTodos } from "@/networks/todo_networks";
+import { useRouter } from "next/navigation";
 import { createContext, useEffect, useState } from "react";
 import React from "react";
 const TodoContext=createContext({
@@ -16,7 +17,7 @@ interface ContextProviderProps{
  
 }
 export function TodoContextProvider({children}:ContextProviderProps){
-    
+    const router=useRouter();
     const [allTodos, setAllTodos] = useState([]);
     const [loading, setLoading] = useState<boolean>(false);
     const[searchInput,setSearchInput] = useState<string>("");
@@ -26,6 +27,7 @@ export function TodoContextProvider({children}:ContextProviderProps){
     }, [debouncedVal]);
 
     async function getTodos() {
+      try{
         setLoading(true);
         const response = await fetchTodos({searchTitle:searchInput});
         console.log("response------->", response);
@@ -35,6 +37,13 @@ export function TodoContextProvider({children}:ContextProviderProps){
           console.log("error in fetching todos.");
         }
         setLoading(false);
+
+      }catch(err:any){
+        console.error("Error in fetching todos", err);
+        if(err.status===401){
+            router.push("/login")
+        }
+      }
       }
       const ctxValue={allTodos,getTodos,loading,searchInput,setSearchInput}
 return <TodoContext.Provider value={ctxValue}>

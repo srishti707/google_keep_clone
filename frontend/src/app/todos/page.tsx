@@ -35,11 +35,12 @@ function page() {
   
   const {getTodos,allTodos,loading}=useContext(TodoContext)
 
+  
   async function handleAddTodo() {
-    const body = {
+
+    const body:any = {
       title,
       content,
-      user_id: "66fbd05f8ab56098a7c329b3",
     };
     // setLoading(true);
     const res: any = await createTodo(body); //res=response.data
@@ -74,9 +75,11 @@ function page() {
     setshowLabel(-1);
     setEditTitle("");
     setEditContent("");
+    setDropDown(-1);
     if (response.success) {
       getTodos();
     }
+
   }
   async function removeLabell(todo_id:string,label:string){
 const params={
@@ -216,7 +219,10 @@ if(response.success){
                             onClick={() => {
                               setshowLabel(todo._id);
                               setDropDown(-1);
+                              setEditedTitle(todo.title);
+                              setEditedContent(todo.content)
                             }}
+
                             className="whitespace-nowrap cursor-pointer"
                           >
                             Add label
@@ -224,12 +230,18 @@ if(response.success){
                         
                           <li  onClick={()=>{
                             setEditedTitle(todo.title)
-                            setEditTitle(todo._id)}}
+                            setEditTitle(todo._id)
+                            setLabelName("")
+                          }}
+                            
                            className="whitespace-nowrap cursor-pointer">edit Title</li>
                         
                           <li onClick={()=>{
                             setEditedContent(todo.content)
-                            setEditContent(todo._id)
+                            setEditedTitle(todo.title);
+                            setEditContent(todo._id);
+                            setLabelName("");
+                            
                           }}
                           className="whitespace-nowrap cursor-pointer">edit Note</li>
                         </ul>

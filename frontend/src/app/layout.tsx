@@ -20,8 +20,8 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body className="flex flex-col gap-10 bg-gradient-to-b from-gray-900 to-gray-600 items-center py-10 ">
-      <h1 className='text-white text-2xl font-bold w-fit '>SignUp</h1>
+      <body >
+   
       {children}
       </body>
     </html>

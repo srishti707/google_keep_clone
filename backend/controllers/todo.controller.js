@@ -2,7 +2,8 @@ const Todo = require("../models/todo.schema");
 const jwt=require("jsonwebtoken");
 const User=require("../models/user.schema");
 exports.createTodo = async (req, res) => {
-  const { title, content,labels,background_color,pinned,completed,user_id, } = req.body;
+  const { title, content,labels,background_color,pinned,completed } = req.body;
+  const user_id=req.user._id;
   try {
     const newTodo = await Todo.create({title,content,labels,background_color,pinned,completed,user_id});
     return res.status(200).json({
@@ -93,7 +94,7 @@ exports.updateTodo = async (req, res) => {
   if (userId) {
     updatedObject.user_id = userId;
   }
-  if(labels.length>0) {
+  if(labels) {
     updatedObject.$push={labels:labels}
   }
   if(removeLabel){

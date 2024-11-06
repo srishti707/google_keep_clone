@@ -1,6 +1,8 @@
 const User = require("../models/user.schema");
 const jwt=require('jsonwebtoken');
-const bcrypt=require('bcryptjs')
+const bcrypt=require('bcryptjs');
+const {randomBytes,createHash}=require("crypto");
+
 exports.getUser = async (req, res) => {
   //to get data of an individual user using user_id.
   try {
@@ -37,7 +39,7 @@ exports.createUser = async (req, res) => {
     //1)if user already exists
     const userExists=await User.findOne({email});
     if(userExists){
-     return res.status(400).json({
+     return res.status(403).json({
        success:false,
        message:"User already exists",
     
@@ -101,7 +103,44 @@ exports.loginUser=async(req,res)=>{
       message: err.message
     });
   }
+}
+exports.forgotPassword=async(req,res)=>{
+  const {email}=req.body;
+  const userExists=await User.findOne({email});
+  try{
+    if(!userExists){
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+   //generate a random token
+   const resetToken=randomBytes(32).toString("hex");
+    //store this token in database with user id and expiry date after hashing
+    const hashedToken=createHash("sha256").update(resetToken).digest("hex");
+    userExists.passwordResetToken=hashedToken;
+    userExists.passwordResetTokenExpiration=Date.now()+10*60*1000;//in milliseconds
+    await userExists.save({validateBeforeSave: false});
+    const resetUrl=`${req.protocol}://${req.host}/user/resetPassword/${hashedToken}`;
+    //send email using email service provider
+    res.status(200).json({
+      success: true,
+      message: "Reset password link sent to your email",
+      data: resetUrl,
+    })
 
+  }
+  catch(err){
+    userExists.passwordResetToken=undefined ;
+    userExists.passwordResetTokenExpiration=undefined ;
+    userExists.save({
+      validationBeforeSave:false
+    })
+        return res.status(500).json({
+      success: false,
+      message: err.message
+    });
+  }
 }
 exports.updateUser = async (req, res) => {
 

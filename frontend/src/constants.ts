@@ -1,5 +1,5 @@
-export const server_uri="http://localhost:6969";
-// export const server_uri="https://google-keep-clone-3s6h.onrender.com";
+// export const server_uri="http://localhost:6969";
+ export const server_uri="https://google-keep-clone-3s6h.onrender.com";
 export const get_todo="/todo/get";
 export const create_todo="/todo/create";
 export const delete_todo="/todo/delete";

@@ -52,14 +52,14 @@ function page() {
   return (
     <main className=" flex flex-col justify-center items-center gap-10 bg-gradient-to-b from-gray-900 to-gray-600  py-10  ">
          <h1 className='text-white text-2xl font-bold w-fit '>SignUp</h1>
-      <div className="rounded-md p-5 w-[35vw] flex flex-col gap-6 bg-gradient-to-b from-gray-900 to-gray-500">
+      <div className="rounded-md p-5 sm:w-[40vw] md:w-[40vw]  flex flex-col gap-6 bg-gradient-to-b from-gray-900 to-gray-500">
         <div className="flex flex-col  gap-3">
           <label className="text-white ">Name</label>
           <input
             onChange={(e) => setName(e.target.value)}
             type="text"
             placeholder="enter your name.."
-            className="px-4 py-2 border-2  w-full rounded-sm"
+            className="px-4 py-2 border-2 w-full rounded-sm text-black"
           />
         </div>
         <div className="flex flex-col  gap-3">
@@ -68,7 +68,7 @@ function page() {
             onChange={(e) => setEmail(e.target.value)}
             type="text"
             placeholder="enter your email.."
-            className="px-4 py-2 border-2  w-full rounded-sm"
+            className="px-4 py-2 border-2  w-full rounded-sm text-black"
           />
         </div>
         <div className="flex flex-col  gap-3">
@@ -77,7 +77,7 @@ function page() {
             onChange={(e) => setPassword(e.target.value)}
             type="password"
             placeholder="enter your password.."
-            className="px-4 py-2 w-full  border-2 rounded-sm"
+            className="px-4 py-2 w-full  border-2 rounded-sm  text-black"
           />
         </div>
         <div className="flex flex-col  gap-3">
@@ -86,7 +86,7 @@ function page() {
             onChange={(e) => setConfirmPassword(e.target.value)}
             type="text"
             placeholder="enter your password again.."
-            className="px-4 py-2 w-full  border-2 rounded-sm"
+            className="px-4 py-2 w-full  border-2 rounded-sm text-black"
           />
         </div>
         <button

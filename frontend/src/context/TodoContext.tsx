@@ -9,6 +9,9 @@ const TodoContext=createContext({
     getTodos:()=>{ },
     loading:false,
     searchInput: "",
+    isSidebarVisible:false,
+    // setIsSideBarVisible:( () =>{(prev:boolean)=>{}}),
+    setIsSideBarVisible: (value: boolean | ((prev: boolean) => boolean)) => {},
     setSearchInput: (input: string) => { } //this function will update the search input value and call getTodos function to fetch new data based on the updated search input.
 //initial values of fields
 })
@@ -21,6 +24,7 @@ export function TodoContextProvider({children}:ContextProviderProps){
     const [allTodos, setAllTodos] = useState([]);
     const [loading, setLoading] = useState<boolean>(false);
     const[searchInput,setSearchInput] = useState<string>("");
+    const [isSidebarVisible,setIsSideBarVisible]=useState<boolean>(false);
     const debouncedVal=useDebounce(searchInput);
     useEffect(() => {
       getTodos();
@@ -45,7 +49,7 @@ export function TodoContextProvider({children}:ContextProviderProps){
         }
       }
       }
-      const ctxValue={allTodos,getTodos,loading,searchInput,setSearchInput}
+      const ctxValue={allTodos,getTodos,loading,searchInput,setSearchInput,setIsSideBarVisible,isSidebarVisible}
 return <TodoContext.Provider value={ctxValue}>
     {children}
     

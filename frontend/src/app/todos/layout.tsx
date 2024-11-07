@@ -1,23 +1,29 @@
-import Navbar from '@/components/Navbar'
-import Sidebar from '@/components/Sidebar'
-import { TodoContextProvider } from '@/context/TodoContext'
-import React from 'react'
+"use client"
+import MobileSidebar from '@/components/MobileSidebar';
+import Navbar from '@/components/Navbar';
+import Sidebar from '@/components/Sidebar';
+import TodoContext, { TodoContextProvider } from '@/context/TodoContext';
+import React, { useContext } from 'react';
 
-function layout({children}:any) {
+function Layout({ children }: any) {
   return (
-    <div>
-        <TodoContextProvider>
-        <Navbar/>
-        <main className="flex w-full min-h-[calc(100vh-56px)] ">
-          <Sidebar/>
-        {children}
-
+    <TodoContextProvider>
+      <div>
+        <Navbar />
+        <main className="flex w-full h-full  ">
+          <Sidebar />
+          <MobileSidebarContainer />
+          {children}
         </main>
-
-        </TodoContextProvider>
-     
-    </div>
-  )
+      </div>
+    </TodoContextProvider>
+  );
 }
 
-export default layout
+function MobileSidebarContainer() {
+  const { isSidebarVisible } = useContext(TodoContext);
+
+  return isSidebarVisible ? <MobileSidebar /> : null;
+}
+
+export default Layout;

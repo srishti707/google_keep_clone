@@ -116,29 +116,29 @@ if(response.success){
               onClick={() => setClickInput(true)}
             />
           ) : (
-            <div className="flex flex-col text-white w-full py-2 ">
+            <div className="flex flex-col text-white w-full md:py-2 ">
               <input
-                className="bg-transparent text-white w-full px-5 py-3 outline-none"
+                className="bg-transparent text-white w-full md:px-5 px-1 md:py-3 py-1 outline-none"
                 placeholder="Enter title"
                 onChange={(e) => setTitle(e.target.value)}
                 value={title}
               />
               <input
-                className="bg-transparent text-white w-full px-5 py-4 outline-none"
+                className="bg-transparent text-white w-full md:px-5 px-1 md:py-3 py-1 outline-none"
                 placeholder="Take a note..."
                 onChange={(e) => setContent(e.target.value)}
                 value={content}
               />
-              <div className="flex gap-3 self-end">
+              <div className="flex md:gap-3 gap-1 self-end">
                 <button
                   onClick={() => setClickInput(false)}
-                  className="text-white p-2 rounded-md border-blue-400 bg-blue-100 bg-opacity-30"
+                  className="text-white p-2  rounded-md border-blue-400 bg-blue-100 bg-opacity-30"
                 >
                   Close
                 </button>
                 <button
                   onClick={handleAddTodo}
-                  className="text-white p-2 rounded-md border-blue-400 bg-blue-100 bg-opacity-30"
+                  className="text-white p-2  rounded-md border-blue-400 bg-blue-100 bg-opacity-30"
                 >
                   Add
                 </button>

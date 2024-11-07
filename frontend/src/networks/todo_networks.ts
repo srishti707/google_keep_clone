@@ -30,7 +30,12 @@ export async function createTodo(body:any){
 }
 export async function deleteTodo(params:any){
     const token=localStorage.getItem('token');
-const response=await axios.post(`${server_uri}${delete_todo}?todo_id=${params.todo_id}`);
+const response=await axios.post(`${server_uri}${delete_todo}?todo_id=${params.todo_id}`,{},
+    {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
 return response.data;
 }
 export async function updateTodo(params:any){

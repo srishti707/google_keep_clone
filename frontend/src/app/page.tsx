@@ -52,7 +52,7 @@ function page() {
   return (
     <main className=" flex flex-col justify-center items-center gap-10 bg-gradient-to-b from-gray-900 to-gray-600  py-10  ">
          <h1 className='text-white text-2xl font-bold w-fit '>SignUp</h1>
-      <div className="rounded-md p-5 sm:w-[40vw] md:w-[40vw]  flex flex-col gap-6 bg-gradient-to-b from-gray-900 to-gray-500">
+      <div className="rounded-md p-5 w-[40vw] md:w-[40vw]  flex flex-col gap-6 bg-gradient-to-b from-gray-900 to-gray-500">
         <div className="flex flex-col  gap-3">
           <label className="text-white ">Name</label>
           <input
